@@ -1,11 +1,10 @@
 import requests
+import os
 import re
 from bs4 import BeautifulSoup
 import time
 
-def get_data():
-    url = "http://42.194.197.95:8001/poison_url"
-    headers = {
+headers = {
         "Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
         "Accept-Encoding":"gzip, deflate",
         "Accept-Language":"zh-CN,zh;q=0.9,en;q=0.8,zh-TW;q=0.7,es;q=0.6",
@@ -16,17 +15,21 @@ def get_data():
         "Proxy-Connection":"keep-alive",
         "Upgrade-Insecure-Requests": "1",
         "User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36",
+}
+cookies = {
+        'session':'eJyrViotTi1SsqpWyiyOT0zJzcxTsjLQUcrJTwexSopKU3WUcvOTMnNSlayUDM3gQEkHrDE'
+}
+url = "http://42.194.197.95:8001/poison_url"
 
-    }
-
+def get_data():
     r = requests.get(url=url,headers=headers)
     #print(r.text)
     soup = BeautifulSoup(r.text,'lxml')
     movie_list = soup.find('div',class_='movie-list').find_all('a',class_='list-group-item')
+
     result = []
     for img_list in movie_list:
         movieImage = img_list.find('p').find_next_sibling('p').get_text()
-        #print(movieImage)
         result.append(movieImage)
     return result
 
@@ -40,15 +43,25 @@ def remove_list(key,list_key):
 def make_list(data_list, remove_str):
         return [x for x in data_list if remove_str != x]  # this will change the original list
             
-def main():
+def download_img(url_img):
+   
+    dirs = 'imgs'
+    if not os.path.exists(dirs):
+        os.mkdir(dirs)
 
+    for ss in url_img:
+       file_name =  ss.split('/')[-1]
+       req = requests.get(url,headers=headers,cookies=cookies)
+       print(req.content)
+       
+       with open(f'{dirs}/{file_name}','wb') as f:
+           f.write(req.content)
+
+def main():
     remove_str= 'http://42.194.197.95:8001/poison_img_url'
     page_list = get_data()
-
-    t1 = time.time()
-    a =make_list(page_list,remove_str)
-    t2 = time.time()
-    print(t2-t1)
-
+    url_img = make_list(page_list,remove_str)
+    download_img(url_img)
+    
 if __name__ =='__main__':
     main()
