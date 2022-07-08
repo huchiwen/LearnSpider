@@ -17,7 +17,7 @@ headers = {
         "User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36",
 }
 cookies = {
-        'session':'eJyrViotTi1SsqpWyiyOT0zJzcxTsjLQUcrJTwexSopKU3WUcvOTMnNSlayUDM3gQEkHrDE'
+        'session':'.eJyrViotTi1SsqpWyiyOT0zJzcxTsjLQUcrJTwexSopKU3WUcvOTMnNSlayUDM3gQEkHrDE-M0XJyhjCzkvMBSmKKTU3NbKIKTUzMjZXqq0FAN1MHbY.YseKlw.bbDJPvojr_0i0ePO57WdNCQ03cM'
 }
 url = "http://42.194.197.95:8001/poison_url"
 
@@ -50,10 +50,12 @@ def download_img(url_img):
         os.mkdir(dirs)
 
     for ss in url_img:
+       print(ss)
        file_name =  ss.split('/')[-1]
-       req = requests.get(url,headers=headers,cookies=cookies)
-       print(req.content)
-       
+       #req = requests.get(ss,headers=headers,cookies=cookies) 
+       req = requests.get(ss)
+       #print(req)
+
        with open(f'{dirs}/{file_name}','wb') as f:
            f.write(req.content)
 
@@ -61,6 +63,7 @@ def main():
     remove_str= 'http://42.194.197.95:8001/poison_img_url'
     page_list = get_data()
     url_img = make_list(page_list,remove_str)
+    #print(url_img)
     download_img(url_img)
     
 if __name__ =='__main__':
