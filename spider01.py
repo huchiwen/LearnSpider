@@ -46,15 +46,15 @@ def make_list(data_list, remove_str):
 def download_img(url_img):
    
     dirs = 'imgs'
+    index = 0
     if not os.path.exists(dirs):
         os.mkdir(dirs)
-
     for ss in url_img:
-       print(ss)
        file_name =  ss.split('/')[-1]
        #req = requests.get(ss,headers=headers,cookies=cookies) 
        req = requests.get(ss)
-       #print(req)
+       index = index + 1
+       print('file:{0} was downloaded successfully, totall:{1}'.format(ss,index))
 
        with open(f'{dirs}/{file_name}','wb') as f:
            f.write(req.content)
