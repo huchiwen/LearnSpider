@@ -27,7 +27,8 @@ def page_code():
     return data
    
 '''
-   要用遍历字典,在用list才可以去到字典里面的值
+   要用遍历字典,
+   再用list才可以取到字典里面的值
 
 '''
 if __name__ == '__main__':
