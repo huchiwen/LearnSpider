@@ -26,10 +26,17 @@ def page_code():
         #print(list_number,step)
     return data
    
+'''
+   要用遍历字典,在用list才可以去到字典里面的值
 
+'''
 if __name__ == '__main__':
    
    r = page_code()
    pp = pprint.PrettyPrinter(width=41, compact=True)
-   pp.pprint(r)
-
+   #pp.pprint(type(r))
+   for k,v in r.items():
+      list_number = list(v)[0]
+      step = list(v)[1]
+      print(k,list_number,step)
+      
