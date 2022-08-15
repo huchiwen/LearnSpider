@@ -1,11 +1,10 @@
 import requests
+import img2pdf
+import os 
 import time
 import pprint
 from bs4 import BeautifulSoup
 import json
-
-
-
 
 '''
  这是一个练手的爬虫项目,
@@ -55,6 +54,12 @@ accnum = soup.find(id='result_access_num').get('value')
 
 #print(len(access_keys))
 
+dirs = 'imgs'
+dicts_filename = {}
+pdf_dict = {}
+if not os.path.exists(dirs):
+   os.mkdir(dirs)
+
 for access in access_keys:
     access_key = access.get('acckey')
     data = {
@@ -65,12 +70,33 @@ for access in access_keys:
     #print(data)
 
     r = requests.post(root_url,cookies= cookies,headers=headers, data=data)
-    print(r.text)
-
-    data = r.json().get('data')
-    resouse = data.get('resouse')
-    display =data.get('display')
-    url = f'https://qingarchives.npm.edu.tw/index.php?act=Display/{display}/{resouse}'
-    r = requests.get(url, cookies=cookies, headers=headers)
     #print(r.text)
 
+    data = r.json().get('data')
+
+    display =data.get('display')
+    resouse = data.get('resouse')
+
+    url2 = f'https://qingarchives.npm.edu.tw/index.php?act=Display/{display}/{resouse}'
+
+    data2 = {
+      'act':f'Display/built/{resouse}/jpg'
+    }
+    rr = requests.post(root_url,cookies=cookies,headers=headers,data=data2)
+    result = rr.json()
+
+    json_data = result.get('data')
+    page_filename = json_data.get('page_filename')
+    page_thumb = json_data.get('page_thumb')
+    page_list = json_data.get('page_list')
+
+    dicts_filename = {'name':page_filename,'page_list':page_list.values(),'resouse':resouse}
+    #print(dicts_filename.get('page_list'))
+
+    for v in dicts_filename.get('page_list'):
+        
+        page_filename = os.path.splitext(page_filename)[0]
+        with open(f'{dirs}/{page_filename}.pdf','wb') as f:
+             jpg_url =f'https://qingarchives.npm.edu.tw/index.php?act=Display/loadimg/{resouse}/{v}'
+             jpg_file = requests.get(jpg_url,cookies=cookies,headers=headers)
+             f.write(img2pdf.convert(jpg_file.content))
