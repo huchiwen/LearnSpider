@@ -93,9 +93,10 @@ for access in access_keys:
     dicts_filename = {'name':page_filename,'page_list':page_list.values(),'resouse':resouse}
     #print(dicts_filename.get('page_list'))
 
+    page_filename = os.path.splitext(page_filename)[0]
+
     for v in dicts_filename.get('page_list'):
         
-        page_filename = os.path.splitext(page_filename)[0]
         with open(f'{dirs}/{page_filename}.pdf','wb') as f:
              jpg_url =f'https://qingarchives.npm.edu.tw/index.php?act=Display/loadimg/{resouse}/{v}'
              jpg_file = requests.get(jpg_url,cookies=cookies,headers=headers)
