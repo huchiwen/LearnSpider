@@ -7,11 +7,12 @@ from bs4 import BeautifulSoup
 import json
 
 '''
- 这是一个练手的爬虫项目,
- 程序原理: 回去accnum,acckeys 提交到指定的接口,返回数据,在请求第二个接口返回jpd 的图片地址,再保存成pdf(保存pdf功能还没有实现)o
+ 这是一个练手的爬虫项目:
+ 程序原理: 回去accnum,acckeys 提交到指定的接口,返回数据,在请求第二个接口返回jpg 的图片地址,
+ 保存pdf 功能具体实现思路,先把jpg 文件下载下来,再用img2pdf 把相同文件名字的jpg文件合并到一个pdf.
 
 
- 遇到的问题是
+ 遇到的问题:
  请求的没有带cookies 导致请求成功,没有数据返回 提示session overwrite
  请求的cookies 没有设置正确导致acceskeys 获取到40条,网站本来就20 条数据
  解决办法是在chrome 的cookies 插件 先把原来的cookies 删除掉,在重新访问,把获取到的PHPSSIONID,添加到代码的cookies即可.
