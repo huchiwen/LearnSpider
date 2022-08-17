@@ -73,7 +73,6 @@ for access in access_keys:
     # print(r.text)
 
     data = r.json().get('data')
-
     display = data.get('display')
     resouse = data.get('resouse')
 
@@ -98,12 +97,16 @@ for access in access_keys:
             if k == kk :
                thumb_list.update({v:vv})
     r_data = {resouse:thumb_list}
+    #print(r_data)
 
     for d_index,d_values in r_data.items():
         for didx,dval in d_values.items():
             with open(f'{dirs}/{didx}','wb') as f:
                  jpg_url =f'https://qingarchives.npm.edu.tw/index.php?act=Display/loadimg/{d_index}/{dval}'
+                 #print(jpg_url)
+                 '''
                  #请求必须要带 cookies 和headers ,直接用上面的网址是访问不到的,会出现一个读图图片失败的页面
                  jpg_file = requests.get(jpg_url,cookies=cookies,headers=headers)
                  f.write(jpg_file.content) 
                  print(f'{didx} 文件下载完成.')
+                 '''
