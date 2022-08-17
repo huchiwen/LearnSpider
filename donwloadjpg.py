@@ -25,8 +25,6 @@ def get_data(cookies,headers):
     thumb_list = {}
     result = {}
 
-
-
     page_data = {}
     resouse_data = {}
     new_page_data = {}
@@ -56,11 +54,6 @@ def get_data(cookies,headers):
         rr = requests.post(root_url, cookies=cookies, headers=headers, data=data2)
         result = rr.json()
         
-        '''
-        pp = pprint.PrettyPrinter(width=41, compact=True)
-        pp.pprint(result)
-        '''
-        
         json_data = result.get('data')
         page_filename = json_data.get('page_filename')
         
@@ -68,13 +61,25 @@ def get_data(cookies,headers):
         page_thumb = json_data.get('page_thumb')
         page_list = json_data.get('page_list')
 
-        for k,v in page_thumb.items():
-            for kk,vv in page_list.items():
-                 if k == kk:
-                    page_data.update({v:vv})
-        page_data = {resouse:page_data}
-        print(page_data)
-    #return page_data
+        new_dicts = merge_dict(page_thumb,page_list)
+        page_data = {resouse:new_dicts}
+        #print(page_data)
+        new_page_data.update(page_data)
+    return new_page_data
+
+'''
+    合并两个字典,重新构造一个新的字典,构建新的对应关系
+'''
+def merge_dict(page_thumb,page_list):
+    
+    page_data = {}
+    #合并两个字典,重新构造一个新的字典,构建新的对应关系
+    for k,v in page_thumb.items():
+        for kk,vv in page_list.items():
+            if k == kk:
+               page_data.update({v:vv})
+    return page_data
+
 
 def main():
     cookies = {
@@ -100,6 +105,9 @@ def main():
         'x-requested-with': 'XMLHttpRequest',
     }
     rr = get_data(cookies,headers)
+    pp = pprint.PrettyPrinter(width=41, compact=True)
+    pp.pprint(rr)
+
 
 
 
