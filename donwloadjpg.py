@@ -5,8 +5,6 @@ import pprint
 from bs4 import BeautifulSoup
 import json
 
-
-
 def get_data(cookies,headers):
 
     url = 'https://qingarchives.npm.edu.tw/index.php?act=Archive'
@@ -107,9 +105,6 @@ def main():
     rr = get_data(cookies,headers)
     pp = pprint.PrettyPrinter(width=41, compact=True)
     pp.pprint(rr)
-
-
-
 
 
 if __name__ == '__main__':
