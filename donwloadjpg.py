@@ -19,7 +19,6 @@ def get_data(cookies,headers):
 
     dirs = 'imgs'
     result = {}
-
     page_data = {}
     new_page_data = {}
 
