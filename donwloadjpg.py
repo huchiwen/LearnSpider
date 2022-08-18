@@ -17,13 +17,9 @@ def get_data(cookies,headers):
 
     #print(access_keys,accnum)
 
-    dirs = 'imgs'
     result = {}
     page_data = {}
     new_page_data = {}
-
-    if not os.path.exists(dirs):
-        os.mkdir(dirs)
 
     for access in access_keys:
         access_key = access.get('acckey')
@@ -60,7 +56,7 @@ def get_data(cookies,headers):
     return new_page_data
 
 '''
-    合并两个字典,重新构造一个新的字典,构建新的对应关系
+合并两个字典,重新构造一个新的字典,构建新的对应关系
 '''
 def merge_dict(page_thumb,page_list):
     
@@ -97,9 +93,31 @@ def main():
         'x-requested-with': 'XMLHttpRequest',
     }
     rr = get_data(cookies,headers)
+    '''
     pp = pprint.PrettyPrinter(width=41, compact=True)
     pp.pprint(rr)
+    '''
+    
+    # make a dir
+    dirs = 'imgs'
+    if not os.path.exists(dirs):
+        os.mkdir(dirs)
 
+    #download jpg file 
+    for k,v in rr.items():
+        for kk,vv in v.items():
+            download_jpg(k,kk,vv,dirs,cookies,headers)
+
+    
+def download_jpg(resouse,filename,page_list,dirs,cookies,headers):
+
+    with open(f'{dirs}/{filename}','wb') as f:
+         jpg_url =f'https://qingarchives.npm.edu.tw/index.php?act=display/loadimg/{resouse}/{page_list}'
+         #print(jpg_url)
+         #请求必须要带 cookies 和headers ,直接用上面的网址是访问不到的,会出现一个读图图片失败的页面
+         jpg_file = requests.get(jpg_url,cookies=cookies,headers=headers)
+         f.write(jpg_file.content) 
+         print(f'{filename} 文件下载完成.')
 
 if __name__ == '__main__':
     main()
