@@ -106,18 +106,14 @@ def main():
     #download jpg file 
     for k,v in rr.items():
         for kk,vv in v.items():
-            download_jpg(k,kk,vv,dirs,cookies,headers)
-
-    
-def download_jpg(resouse,filename,page_list,dirs,cookies,headers):
-
-    with open(f'{dirs}/{filename}','wb') as f:
-         jpg_url =f'https://qingarchives.npm.edu.tw/index.php?act=display/loadimg/{resouse}/{page_list}'
-         #print(jpg_url)
-         #请求必须要带 cookies 和headers ,直接用上面的网址是访问不到的,会出现一个读图图片失败的页面
-         jpg_file = requests.get(jpg_url,cookies=cookies,headers=headers)
-         f.write(jpg_file.content) 
-         print(f'{filename} 文件下载完成.')
+            #download_jpg(k,kk,vv,dirs,cookies,headers)
+            with open(f'{dirs}/{kk}','wb') as f:
+                 jpg_url =f'https://qingarchives.npm.edu.tw/index.php?act=Display/loadimg/{k}/{vv}'
+                 #print(jpg_url)
+                 #请求必须要带 cookies 和headers ,直接用上面的网址是访问不到的,会出现一个读图图片失败的页面
+                 jpg_file = requests.get(jpg_url,cookies=cookies,headers=headers)
+                 f.write(jpg_file.content) 
+                 print(f'{kk} 文件下载完成.')
 
 if __name__ == '__main__':
     main()
