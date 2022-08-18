@@ -18,15 +18,10 @@ def get_data(cookies,headers):
     #print(access_keys,accnum)
 
     dirs = 'imgs'
-    dicts_filename = {}
-    pdf_dict = {}
-    thumb_list = {}
     result = {}
 
     page_data = {}
-    resouse_data = {}
     new_page_data = {}
-    index = 0
 
     if not os.path.exists(dirs):
         os.mkdir(dirs)
