@@ -118,7 +118,7 @@ def main():
 
                  if jpg_file.status_code == 200:
                     f.write(jpg_file.content) 
-                    print(f'{kk} 文件下载完成.')
+                    print(f'file name: {kk} was already save into {dirs} directory.')
 #用不上这个方法
 def save_to_file(data_dicts):
     with open('download_failure_file.csv') as ff:
