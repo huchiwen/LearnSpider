@@ -1,4 +1,5 @@
 import requests
+from requests import exceptions 
 import os
 import time
 import pprint
@@ -109,25 +110,16 @@ def main():
         for kk,vv in v.items():
             #download_jpg(k,kk,vv,dirs,cookies,headers)
             with open(f'{dirs}/{kk}','wb') as f:
+
                  jpg_url =f'https://qingarchives.npm.edu.tw/index.php?act=Display/loadimg/{k}/{vv}'
                  #print(jpg_url)
                  #请求必须要带 cookies 和headers ,直接用上面的网址是访问不到的,会出现一个读图图片失败的页面
                  jpg_file = requests.get(jpg_url,cookies=cookies,headers=headers)
 
-                 try: 
-                     if jpg_file.status_code == 200:
-                        f.write(jpg_file.content) 
-                        print(f'{kk} 文件下载完成.')
-                 #requests.HTTPError
-                 except requests.HTTPError as e:
-                        print('http error...')
-                        raise SystemExit(e)
-                        '''
-                        download_failure_file = update({k:{k:vv}})
-                        save_to_file(download_failure_file)
-                        raise SystemExit(e)
-                        '''
-
+                 if jpg_file.status_code == 200:
+                    f.write(jpg_file.content) 
+                    print(f'{kk} 文件下载完成.')
+#用不上这个方法
 def save_to_file(data_dicts):
     with open('download_failure_file.csv') as ff:
         f.write(data_dicts)
