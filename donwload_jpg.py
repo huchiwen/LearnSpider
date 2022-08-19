@@ -110,7 +110,6 @@ def main():
         for kk,vv in v.items():
             #download_jpg(k,kk,vv,dirs,cookies,headers)
             with open(f'{dirs}/{kk}','wb') as f:
-
                  jpg_url =f'https://qingarchives.npm.edu.tw/index.php?act=Display/loadimg/{k}/{vv}'
                  #print(jpg_url)
                  #请求必须要带 cookies 和headers ,直接用上面的网址是访问不到的,会出现一个读图图片失败的页面
@@ -124,7 +123,6 @@ def save_to_file(data_dicts):
     with open('download_failure_file.csv') as ff:
         f.write(data_dicts)
         print(f'下载失败的文件已经保存到download_failure_file.csv文件中')
-
 
 if __name__ == '__main__':
     main()
