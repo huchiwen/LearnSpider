@@ -20,6 +20,7 @@ def get_data(cookies,headers):
     result = {}
     page_data = {}
     new_page_data = {}
+    download_failure_file = {}
 
     for access in access_keys:
         access_key = access.get('acckey')
@@ -112,8 +113,26 @@ def main():
                  #print(jpg_url)
                  #请求必须要带 cookies 和headers ,直接用上面的网址是访问不到的,会出现一个读图图片失败的页面
                  jpg_file = requests.get(jpg_url,cookies=cookies,headers=headers)
-                 f.write(jpg_file.content) 
-                 print(f'{kk} 文件下载完成.')
+
+                 try: 
+                     if jpg_file.status_code == 200:
+                        f.write(jpg_file.content) 
+                        print(f'{kk} 文件下载完成.')
+                 #requests.HTTPError
+                 except requests.HTTPError as e:
+                        print('http error...')
+                        raise SystemExit(e)
+                        '''
+                        download_failure_file = update({k:{k:vv}})
+                        save_to_file(download_failure_file)
+                        raise SystemExit(e)
+                        '''
+
+def save_to_file(data_dicts):
+    with open('download_failure_file.csv') as ff:
+        f.write(data_dicts)
+        print(f'下载失败的文件已经保存到download_failure_file.csv文件中')
+
 
 if __name__ == '__main__':
     main()
