@@ -6,6 +6,8 @@ import pprint
 from bs4 import BeautifulSoup
 import json
 import threading
+import json
+import csv
 
 class WebSpider:
       
@@ -30,18 +32,43 @@ class WebSpider:
         return data
 
 
+    def save_to_csv(self,fileName,mode,contents):
 
-    # save to file
-    def save_to_file(self,fileName,content):
-        with open('{fileName}.csv','wb') as ff:
-             ff.write(fileName)
-             print(f'文件已经保存到{fileName}.csv文件中')
+        fields = ['acckey', 'accnum']
 
+        with open(f'{fileName}.csv', mode, encoding='UTF8') as f:
+
+             writer = csv.DictWriter(f, fieldnames = fields) 
+             writer.writeheader()
+             writer.writerows(contents)
+
+             '''
+             csvwriter = csv.writer(f) 
+             csvwriter.writerows(contents)
+             '''
+
+
+    # save to file,mode is a+ (not use wb or w)
+    def save_to_file(self,fileName,mode,contents):
+
+        with open(f'{fileName}.txt',mode) as ff:
+             txt = json.dumps(contents,indent=0)
+             ff.write(txt)
+             ff.write('\n')
+             print(f'保存成功')
+    #
+    def read_txt_file(self,fileName):
+        with open(f'{fileName}.txt', 'r') as f:  #打开文件
+            data = f.readline()  #读取文件
+            print('文件打开成功')
     #get the acckey and accnum,after save into data file
     def get_acckey_and_accnum(self):
 
         access_keys = {}
         accnum = {}
+        fileName = 'data'
+        data_list = []
+        dicts = {}
 
         for k,v in self.page_code().items():
             step = '-'.join([str(i) for i in v])
@@ -55,13 +82,21 @@ class WebSpider:
             accnum = soup.find(id='result_access_num').get('value')
 
             for access in access_keys:
-                 #print(access.get('acckey'),accnum)
-                 contents = {access.get('acckey'):accnum}
-                 contents.update(contents)
-                 print(url,contents)
-        self.save_to_file('data',contents)
+                dicts = {'acckey':access.get('acckey'),'accnum':accnum}
+                dicts.update(dicts)
+                data_list.append(dicts)
+                #print(data_list)
+                self.save_to_csv('data','a+',data_list)
 
+                
         '''
+                 print(access.get('acckey'),accnum)
+                 contents = [{access.get('acckey'):accnum}]
+                 contents.append(contents)
+                 print(url,contents)
+                 self.save_to_csv('data','a+',contents)
+        #self.save_to_file(fileName,'a+',contents)
+
         r = requests.get(url, headers=headers, cookies=cookies)
         soup = BeautifulSoup(r.text, 'lxml')
 
@@ -108,8 +143,8 @@ if __name__ == '__main__':
     }
     
     obj =  WebSpider(cookies,headers)
+    #obj.read_txt_file("data")
     for i in range(10000):
         t = threading.Thread(target=obj.get_acckey_and_accnum)
         t.start()
         t.join()
-
