@@ -42,25 +42,7 @@ class WebSpider:
              writer.writeheader()
              writer.writerows(contents)
 
-             '''
-             csvwriter = csv.writer(f) 
-             csvwriter.writerows(contents)
-             '''
 
-
-    # save to file,mode is a+ (not use wb or w)
-    def save_to_file(self,fileName,mode,contents):
-
-        with open(f'{fileName}.txt',mode) as ff:
-             txt = json.dumps(contents,indent=0)
-             ff.write(txt)
-             ff.write('\n')
-             print(f'保存成功')
-    #
-    def read_txt_file(self,fileName):
-        with open(f'{fileName}.txt', 'r') as f:  #打开文件
-            data = f.readline()  #读取文件
-            print('文件打开成功')
     #get the acckey and accnum,after save into data file
     def get_acckey_and_accnum(self):
 
@@ -87,35 +69,6 @@ class WebSpider:
                 data_list.append(dicts)
                 #print(data_list)
                 self.save_to_csv('data','a+',data_list)
-
-                
-        '''
-                 print(access.get('acckey'),accnum)
-                 contents = [{access.get('acckey'):accnum}]
-                 contents.append(contents)
-                 print(url,contents)
-                 self.save_to_csv('data','a+',contents)
-        #self.save_to_file(fileName,'a+',contents)
-
-        r = requests.get(url, headers=headers, cookies=cookies)
-        soup = BeautifulSoup(r.text, 'lxml')
-
-        self.access_keys = soup.find_all("a", class_="act_content_display")
-        self.accnum = soup.find(id='result_access_num').get('value')
-
-        #print(self.access_keys,self.accnum)
-				
-        for access in self.access_keys:
-            access_key = access.get('acckey')
-            data = {
-                'act': f'Display/initial/{access_key}/{self.accnum}',
-            }
-            root_url = 'https://qingarchives.npm.edu.tw/index.php'
-            # print(data)
-            r = requests.post(root_url, cookies=cookies, headers=headers, data=data)
-            print(r.text)
-        '''
-
 
 if __name__ == '__main__':
 
