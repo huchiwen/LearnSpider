@@ -1,11 +1,12 @@
 import requests
+from concurrent.futures import ThreadPoolExecutor
+import threading
 from requests import exceptions 
 import os
 import time
 import pprint
 from bs4 import BeautifulSoup
 import json
-import threading
 import json
 import csv
 
@@ -31,16 +32,18 @@ class WebSpider:
             #print(list_number,step)
         return data
 
+    ''' https://www.pythontutorial.net/python-basics/python-write-csv-file/
+        csv example
+    '''
 
     def save_to_csv(self,fileName,mode,contents):
 
         fields = ['acckey', 'accnum']
-
         with open(f'{fileName}.csv', mode, encoding='UTF8') as f:
-
              writer = csv.DictWriter(f, fieldnames = fields) 
-             writer.writeheader()
+             #writer.writeheader()
              writer.writerows(contents)
+             print('数据保存成功.')
 
 
     #get the acckey and accnum,after save into data file
@@ -51,7 +54,7 @@ class WebSpider:
         fileName = 'data'
         data_list = []
         dicts = {}
-
+        t1 = time.time()
         for k,v in self.page_code().items():
             step = '-'.join([str(i) for i in v])
             url = f'https://qingarchives.npm.edu.tw/index.php?act=Archive//{step}'
@@ -67,8 +70,12 @@ class WebSpider:
                 dicts = {'acckey':access.get('acckey'),'accnum':accnum}
                 dicts.update(dicts)
                 data_list.append(dicts)
-                #print(data_list)
                 self.save_to_csv('data','a+',data_list)
+                '''
+                t2 = time.time()
+                t  = t2 - t1
+                print(f'running time:{t}')
+                '''
 
 if __name__ == '__main__':
 
@@ -96,8 +103,12 @@ if __name__ == '__main__':
     }
     
     obj =  WebSpider(cookies,headers)
-    #obj.read_txt_file("data")
+    with ThreadPoolExecutor(max_workers=4) as pool:
+         pool.submit(obj.get_acckey_and_accnum)
+    '''
+    obj.read_txt_file("data")
     for i in range(10000):
         t = threading.Thread(target=obj.get_acckey_and_accnum)
         t.start()
         t.join()
+    '''
