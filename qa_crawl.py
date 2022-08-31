@@ -71,7 +71,7 @@ class WebSpider:
                 dicts = {'acckey':access.get('acckey'),'accnum':accnum}
                 dicts.update(dicts)
                 data_list.append(dicts)
-                #self.save_to_csv('data','a+',data_list)
+                self.save_to_csv('data','a+',data_list)
                 '''
                 t2 = time.time()
                 t  = t2 - t1
@@ -104,5 +104,6 @@ if __name__ == '__main__':
     }
     
     obj =  WebSpider(cookies,headers)
+
     with ThreadPoolExecutor(max_workers=20) as pool:
          pool.submit(obj.get_acckey_and_accnum)
