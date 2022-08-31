@@ -39,12 +39,12 @@ class WebSpider:
     def save_to_csv(self,fileName,mode,contents):
 
         fields = ['acckey', 'accnum']
+        #print(onehead)
         with open(f'{fileName}.csv', mode, encoding='UTF8') as f:
              writer = csv.DictWriter(f, fieldnames = fields) 
              #writer.writeheader()
              writer.writerows(contents)
              print('数据保存成功.')
-
 
     #get the acckey and accnum,after save into data file
     def get_acckey_and_accnum(self):
@@ -54,6 +54,7 @@ class WebSpider:
         fileName = 'data'
         data_list = []
         dicts = {}
+        onehead = 0
         t1 = time.time()
         for k,v in self.page_code().items():
             step = '-'.join([str(i) for i in v])
@@ -70,7 +71,7 @@ class WebSpider:
                 dicts = {'acckey':access.get('acckey'),'accnum':accnum}
                 dicts.update(dicts)
                 data_list.append(dicts)
-                self.save_to_csv('data','a+',data_list)
+                #self.save_to_csv('data','a+',data_list)
                 '''
                 t2 = time.time()
                 t  = t2 - t1
@@ -103,12 +104,5 @@ if __name__ == '__main__':
     }
     
     obj =  WebSpider(cookies,headers)
-    with ThreadPoolExecutor(max_workers=4) as pool:
+    with ThreadPoolExecutor(max_workers=20) as pool:
          pool.submit(obj.get_acckey_and_accnum)
-    '''
-    obj.read_txt_file("data")
-    for i in range(10000):
-        t = threading.Thread(target=obj.get_acckey_and_accnum)
-        t.start()
-        t.join()
-    '''
