@@ -1,5 +1,5 @@
 import requests
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor,as_completed
 import threading
 from requests import exceptions 
 import os
@@ -10,17 +10,18 @@ import json
 import json
 import csv
 
-class WebSpider:
+class WebSpider(threading.Thread):
       
     def __init__(self,cookies,headers):
 
         self.cookies = cookies
         self.headers = headers
+        threading.Thread.__init__(self)
 
     def page_code(self):
         a1 = 1 
         page_num = 20
-        page_size = 446855
+        page_size = 1000
         total = page_size / page_num
         data = {}
 
@@ -32,51 +33,44 @@ class WebSpider:
             #print(list_number,step)
         return data
 
-    ''' https://www.pythontutorial.net/python-basics/python-write-csv-file/
-        csv example
+
+    ''' 
+    https://www.pythontutorial.net/python-basics/python-write-csv-file/
+    csv example
     '''
 
     def save_to_csv(self,fileName,mode,contents):
 
-        fields = ['acckey', 'accnum']
-        #print(onehead)
-        with open(f'{fileName}.csv', mode, encoding='UTF8') as f:
-             writer = csv.DictWriter(f, fieldnames = fields) 
-             #writer.writeheader()
-             writer.writerows(contents)
-             print('数据保存成功.')
+        with open(f'{fileName}.csv',mode,encoding='UTF8') as f:
+            writer = csv.writer(f)
+            for i in contents:
+                writer.writerow(i)
+                print('数据保存成功.')
 
-    #get the acckey and accnum,after save into data file
-    def get_acckey_and_accnum(self):
+    def get_api_params(self):
 
-        access_keys = {}
-        accnum = {}
-        fileName = 'data'
-        data_list = []
-        dicts = {}
-        onehead = 0
-        t1 = time.time()
+        urls  = []
         for k,v in self.page_code().items():
-            step = '-'.join([str(i) for i in v])
-            url = f'https://qingarchives.npm.edu.tw/index.php?act=Archive//{step}'
-            #print(url)
-            #print('-'.join([str(i) for i in v]))
-            r = requests.get(url,cookies=self.cookies,headers=self.headers)
-            soup = BeautifulSoup(r.text, 'lxml')
+            step  =  '-'.join([str(i) for i in v])
+            url   = f'https://qingarchives.npm.edu.tw/index.php?act=Archive//{step}'
+            urls.append(url)
+        return urls
 
-            access_keys = soup.find_all("a", class_="act_content_display")
-            accnum = soup.find(id='result_access_num').get('value')
+    def get_acckey_and_accnum(self,urls):
+        data_list =[]
+        all_list = []
+        r = requests.get(urls,cookies=self.cookies,headers=self.headers)
+        soup = BeautifulSoup(r.text, 'lxml')
 
-            for access in access_keys:
-                dicts = {'acckey':access.get('acckey'),'accnum':accnum}
-                dicts.update(dicts)
-                data_list.append(dicts)
-                self.save_to_csv('data','a+',data_list)
-                '''
-                t2 = time.time()
-                t  = t2 - t1
-                print(f'running time:{t}')
-                '''
+        access_keys = soup.find_all("a", class_="act_content_display")
+        accnum = soup.find(id='result_access_num').get('value')
+
+        for access in access_keys:
+            data_list = [access.get('acckey'),accnum]
+            all_list.append(data_list)
+        return all_list
+
+
 
 if __name__ == '__main__':
 
@@ -104,6 +98,13 @@ if __name__ == '__main__':
     }
     
     obj =  WebSpider(cookies,headers)
+    #print(obj.get_api_params())
+    urls = obj.get_api_params()
+    futures =[]
+    result =[]
 
-    with ThreadPoolExecutor(max_workers=20) as pool:
-         pool.submit(obj.get_acckey_and_accnum)
+    for i in urls:
+        data = obj.send_get_request(i)
+        #print(data)
+        obj.save_to_csv('data','a+',data)
+
