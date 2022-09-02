@@ -20,16 +20,19 @@ class WebSpider(threading.Thread):
     def page_code(self):
         a1 = 1 
         page_num = 20
-        page_size = 1000
+        page_size = 1001
         total = page_size / page_num
-        data = {}
+        #data = {}
+        data = []
+        all_data = []
 
         for i in range(1,page_size):
             list_number = a1 + (i -1) * page_num
             step =(list_number + page_num) - 1
-            data[i] = {list_number,step} 
-            data.update()
+            #data[i] = {list_number,step}
+            data.append([list_number,step])
             #print(list_number,step)
+        #print(data)
         return data
 
 
@@ -49,9 +52,10 @@ class WebSpider(threading.Thread):
     def get_api_params(self):
 
         urls  = []
-        for k,v in self.page_code().items():
-            step  =  '-'.join([str(i) for i in v])
-            url   = f'https://qingarchives.npm.edu.tw/index.php?act=Archive//{step}'
+
+        for i in self.page_code():
+            step = '-'.join([str(ii) for ii in i])
+            url  = f'https://qingarchives.npm.edu.tw/index.php?act=Archive//{step}'
             urls.append(url)
         return urls
 
@@ -98,8 +102,8 @@ if __name__ == '__main__':
     }
     
     obj =  WebSpider(cookies,headers)
-    #print(obj.get_api_params())
     urls = obj.get_api_params()
+
     futures =[]
     result =[]
     '''
@@ -117,6 +121,6 @@ if __name__ == '__main__':
 
     for task in as_completed(all_task):
         data = task.result()
-        #print("任务 {} down load success".format(data))
+        print("任务 {} down load success".format(data))
         obj.save_to_csv('data','a+',data)
-        #print(f"{data}数据保存成功")
+        print(f"{data}数据保存成功")
