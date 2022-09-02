@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="07702587-b49f-4ef9-9e8f-f5fb4e44bd57" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/data.csv" afterPath="$PROJECT_DIR$/data.csv" />
-      <change beforePath="$PROJECT_DIR$/qa_crawl.py" afterPath="$PROJECT_DIR$/qa_crawl.py" />
+      <change beforePath="$PROJECT_DIR$/seq.py" afterPath="$PROJECT_DIR$/seq.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -17,25 +15,44 @@
     <SUITE FILE_PATH="coverage/LearnSpider$check_code.coverage" NAME="check_code Coverage Results" MODIFIED="1660649470365" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/LearnSpider$donwloadjpg.coverage" NAME="donwloadjpg Coverage Results" MODIFIED="1660715374414" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/LearnSpider$qingarchives_crawl.coverage" NAME="qingarchives_crawl Coverage Results" MODIFIED="1660656817672" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/LearnSpider$seq.coverage" NAME="seq Coverage Results" MODIFIED="1662107995923" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/LearnSpider$a.coverage" NAME="a Coverage Results" MODIFIED="1661788465382" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/LearnSpider$b.coverage" NAME="b Coverage Results" MODIFIED="1661963992059" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/LearnSpider$qa_crawl.coverage" NAME="qa_crawl Coverage Results" MODIFIED="1662103578058" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="qa_crawl.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/qa_crawl.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2294">
-              <caret line="109" column="17" lean-forward="false" selection-start-line="109" selection-start-column="17" selection-end-line="109" selection-end-column="17" />
-              <folding>
-                <element signature="e#0#15#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.45417306">
+      <split-first>
+        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+          <file leaf-file-name="qa_crawl.py" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/qa_crawl.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="292">
+                  <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+                  <folding>
+                    <element signature="e#0#15#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file leaf-file-name="seq.py" pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/seq.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="0">
+                  <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -56,6 +73,7 @@
         <option value="$PROJECT_DIR$/a.py" />
         <option value="$PROJECT_DIR$/b.py" />
         <option value="$PROJECT_DIR$/qa_crawl.py" />
+        <option value="$PROJECT_DIR$/seq.py" />
       </list>
     </option>
   </component>
@@ -68,7 +86,7 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="212" />
     <option name="y" value="25" />
-    <option name="width" value="1773" />
+    <option name="width" value="2224" />
     <option name="height" value="1621" />
   </component>
   <component name="ProjectView">
@@ -118,7 +136,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.qa_crawl">
+  <component name="RunManager" selected="Python.seq">
     <configuration name="a" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -195,7 +213,7 @@
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
-    <configuration name="qingarchives_crawl" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="seq" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -208,26 +226,26 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <module name="LearnSpider" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/qingarchives_crawl.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/seq.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="Python.qingarchives_crawl" />
-      <item index="1" class="java.lang.String" itemvalue="Python.donwloadjpg" />
-      <item index="2" class="java.lang.String" itemvalue="Python.a" />
-      <item index="3" class="java.lang.String" itemvalue="Python.b" />
-      <item index="4" class="java.lang.String" itemvalue="Python.qa_crawl" />
+      <item index="0" class="java.lang.String" itemvalue="Python.donwloadjpg" />
+      <item index="1" class="java.lang.String" itemvalue="Python.a" />
+      <item index="2" class="java.lang.String" itemvalue="Python.b" />
+      <item index="3" class="java.lang.String" itemvalue="Python.qa_crawl" />
+      <item index="4" class="java.lang.String" itemvalue="Python.seq" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.qa_crawl" />
-        <item index="1" class="java.lang.String" itemvalue="Python.b" />
-        <item index="2" class="java.lang.String" itemvalue="Python.a" />
-        <item index="3" class="java.lang.String" itemvalue="Python.donwloadjpg" />
-        <item index="4" class="java.lang.String" itemvalue="Python.qingarchives_crawl" />
+        <item index="0" class="java.lang.String" itemvalue="Python.seq" />
+        <item index="1" class="java.lang.String" itemvalue="Python.qa_crawl" />
+        <item index="2" class="java.lang.String" itemvalue="Python.b" />
+        <item index="3" class="java.lang.String" itemvalue="Python.a" />
+        <item index="4" class="java.lang.String" itemvalue="Python.donwloadjpg" />
       </list>
     </recent_temporary>
   </component>
@@ -248,7 +266,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="212" y="25" width="1773" height="1621" extended-state="0" />
+    <frame x="212" y="25" width="2224" height="1621" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -257,7 +275,7 @@
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32891986" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.41447368" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13229348" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.104949586" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="SciView" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -505,11 +523,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/qa_crawl.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2294">
-          <caret line="109" column="17" lean-forward="false" selection-start-line="109" selection-start-column="17" selection-end-line="109" selection-end-column="17" />
+        <state relative-caret-position="292">
+          <caret line="18" column="0" lean-forward="true" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/seq.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
