@@ -5,6 +5,7 @@ import time
 import pprint
 from bs4 import BeautifulSoup
 import csv
+import os
 
 class WebSpider(threading.Thread):
       
@@ -69,7 +70,36 @@ class WebSpider(threading.Thread):
             all_list.append(data_list)
             print("download url {} finished at {}".format(urls, time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())))
         return all_list
+    '''
+        利用线程池去获取acckey 和accnum的值，保存到csv文件中.
+    '''
+    def saveAcckey2cvs(self,cookies,headers,urls):
 
+
+        '''
+        for i in urls:
+            data = obj.send_get_request(i)
+            #print(data)
+            obj.save_to_csv('data','a+',data)
+        '''
+        ''' 
+            python3 线程学习网站
+            https://cloud.tencent.com/developer/article/1597890
+        '''
+        executor = ThreadPoolExecutor(max_workers=20)
+        all_task = [executor.submit(obj.get_acckey_and_accnum,(url)) for url in urls]
+
+        for task in as_completed(all_task):
+            data = task.result()
+            #print("任务 {} down load success".format(data))
+            obj.save_to_csv('data','a+',data)
+            #print(f"{data}数据保存成功")
+
+    def get_page_api_data(self):
+            with open("data.csv",mode="r",encoding ="utf-8") as ff:
+                read = csv.reader(ff)
+                for i in read:
+                    print(i)
 
 
 if __name__ == '__main__':
@@ -96,27 +126,16 @@ if __name__ == '__main__':
         'user-agent': '"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36,"',
         'x-requested-with': 'XMLHttpRequest',
     }
-    
+
     obj =  WebSpider(cookies,headers)
     urls = obj.get_api_params()
 
-    futures =[]
-    result =[]
-    '''
-    for i in urls:
-        data = obj.send_get_request(i)
-        #print(data)
-        obj.save_to_csv('data','a+',data)
-    '''
-    ''' 
-        python3 线程学习网站
-        https://cloud.tencent.com/developer/article/1597890
-    '''
-    executor = ThreadPoolExecutor(max_workers=20)
-    all_task = [executor.submit(obj.get_acckey_and_accnum,(url)) for url in urls]
+    if os.path.exists('data.csv'):
+       print('读取本地的data.csv,获取acckey和accnum')
+       local_data = obj.get_page_api_data()
+    else:
+       print('开始获取acckey 和accnum....')
+       obj.saveAcckey2cvs(cookies,headers,urls)
 
-    for task in as_completed(all_task):
-        data = task.result()
-        print("任务 {} down load success".format(data))
-        obj.save_to_csv('data','a+',data)
-        print(f"{data}数据保存成功")
+
+
