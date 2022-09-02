@@ -16,7 +16,6 @@ class WebSpider(threading.Thread):
 
         self.cookies = cookies
         self.headers = headers
-        threading.Thread.__init__(self)
 
     def page_code(self):
         a1 = 1 
@@ -45,7 +44,7 @@ class WebSpider(threading.Thread):
             writer = csv.writer(f)
             for i in contents:
                 writer.writerow(i)
-                print('数据保存成功.')
+                #print('数据保存成功.')
 
     def get_api_params(self):
 
@@ -68,6 +67,7 @@ class WebSpider(threading.Thread):
         for access in access_keys:
             data_list = [access.get('acckey'),accnum]
             all_list.append(data_list)
+            print("download url {} finished at {}".format(urls, time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())))
         return all_list
 
 
@@ -102,9 +102,21 @@ if __name__ == '__main__':
     urls = obj.get_api_params()
     futures =[]
     result =[]
-
+    '''
     for i in urls:
         data = obj.send_get_request(i)
         #print(data)
         obj.save_to_csv('data','a+',data)
+    '''
+    ''' 
+        python3 线程学习网站
+        https://cloud.tencent.com/developer/article/1597890
+    '''
+    executor = ThreadPoolExecutor(max_workers=20)
+    all_task = [executor.submit(obj.get_acckey_and_accnum,(url)) for url in urls]
 
+    for task in as_completed(all_task):
+        data = task.result()
+        #print("任务 {} down load success".format(data))
+        obj.save_to_csv('data','a+',data)
+        #print(f"{data}数据保存成功")
