@@ -6,7 +6,6 @@
 '''
 import pprint
 
-
 def page_code():
 
     a1 = 1 
@@ -16,7 +15,6 @@ def page_code():
     data = []
 
     for i in range(1,page_size):
-
         list_number = a1 + (i -1) * page_num
         step = (list_number + page_num) -1
         data.append([list_number,step])
