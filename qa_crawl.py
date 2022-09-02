@@ -1,13 +1,9 @@
 import requests
 from concurrent.futures import ThreadPoolExecutor,as_completed
 import threading
-from requests import exceptions 
-import os
 import time
 import pprint
 from bs4 import BeautifulSoup
-import json
-import json
 import csv
 
 class WebSpider(threading.Thread):
