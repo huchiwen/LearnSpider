@@ -67,10 +67,11 @@ for access in access_keys:
     }
 
     root_url = 'https://qingarchives.npm.edu.tw/index.php'
-    # print(data)
+    print(data)
 
     r = requests.post(root_url, cookies=cookies, headers=headers, data=data)
-    # print(r.text)
+    print(r.text)
+    exit()
 
     data = r.json().get('data')
     display = data.get('display')
