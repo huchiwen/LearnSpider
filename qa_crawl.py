@@ -98,7 +98,7 @@ class WebSpider(threading.Thread):
             obj.save_to_csv('data', 'a+', data)
             # print(f"{data}数据保存成功")
     '''
-    该方法不用
+    这个方法是获取不到接口的数据,想要获取到数据请查看e.py文件的写法
     '''
     def get_page_api_data(self,headers,cookies):
 
