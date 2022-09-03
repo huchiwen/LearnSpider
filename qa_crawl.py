@@ -137,5 +137,3 @@ if __name__ == '__main__':
        print('开始获取acckey 和accnum....')
        obj.saveAcckey2cvs(cookies,headers,urls)
 
-
-
