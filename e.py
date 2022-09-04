@@ -10,6 +10,12 @@ from bs4 import BeautifulSoup
 import json
 
 
+
+''' 
+  该代码可以用多线程爬虫acckey 和accnum 但是数据量不对,网站是1000 页 每页20 条数据,对应的acckey 和accnum 是2w个
+
+'''
+
 def page_code():
     a1 = 1
     page_num = 20
@@ -37,20 +43,51 @@ def get_api_params():
         urls.append(url)
     return urls
 
-def save_to_csv(self, fileName, mode, contents):
+
+'''多个字段保存'''
+def save_to_csv(fileName, mode, contents):
 
     with open(f'{fileName}.csv', mode, encoding='UTF8') as f:
         writer = csv.writer(f)
         for i in contents:
             writer.writerow(i)
-            # print('数据保存成功.')
+            print('数据保存成功~~')
 
-def get_page_data(headers,cookies,url):
+''' 列表单个字段保存'''
+def save_single_string_csv(fileName, mode, contents):
 
-        r = requests.get(url, headers=headers, cookies=cookies)
-        #print(r.text)
+    with open(f'{fileName}.csv', mode, encoding='UTF8') as f:
+        writer = csv.writer(f)
+        writer.writerows(contents)
+        print('数据保存成功.')
 
-        soup = BeautifulSoup(r.text, 'lxml')
+def get_acckey_accnum(headers,url):
+
+        data_list = []
+        all_list = []
+        r = requests.Session()
+        response = r.get(url, headers=headers)
+
+        soup = BeautifulSoup(response.text, 'lxml')
+        access_keys = soup.find_all("a", class_="act_content_display")
+        accnum = soup.find(id='result_access_num').get('value')
+
+        for access in access_keys:
+            data_list = [access.get('acckey'), accnum]
+            all_list.append(data_list)
+        #print(all_list)
+        return all_list
+            
+            
+     
+def get_page_data(headers,url):
+
+        '''
+        data_list = []
+        r = requests.Session()
+        response = r.get(url, headers=headers)
+
+        soup = BeautifulSoup(response.text, 'lxml')
         access_keys = soup.find_all("a", class_="act_content_display")
         accnum = soup.find(id='result_access_num').get('value')
 
@@ -61,9 +98,27 @@ def get_page_data(headers,cookies,url):
             data = {
                 'act': f'Display/initial/{acckey}/{accnum}'
             }
-            rr = requests.post(url,headers=headers,cookies=cookies,data=data)
-            print(rr.text)
+            rr = r.post(url,headers=headers,data=data)
+            data = [rr.json().get('data').get('resouse')]
+            data_list.append(data)
+            #print(data_list)
+        return data_list
+      '''
+'''
+多线程获取不到数据
 
+获取不到数据的问题已经解决了,(共用会话 ID 导致的),详细说明在下面这个地址
+https://segmentfault.com/q/1010000042428840?_ea=264572510
+'''
+def get_resouse(urls,headers):
+
+    with ThreadPoolExecutor(max_workers=5) as executor:
+        future_to_url = [executor.submit(get_acckey_accnum,headers,url) for url in urls]
+        for future in as_completed(future_to_url):
+            data = future.result()
+            #print(data)
+            save_to_csv('data','a+',data)
+            #print(resouse)
 
 
 def main():
@@ -93,18 +148,15 @@ def main():
     urls =get_api_params()
     '''
     不知道为什么用多线程下载获取不到数据提示 overwrite，只能用单线程的办法去获取,但是，数据量太大。耗时间
-    '''
     for url in urls:
         get_page_data(headers,cookies,url)
-
-    '''    
-    多线程获取不到数据
-    with ThreadPoolExecutor(max_workers=5) as executor:
-        future_to_url = [executor.submit(get_page_data,headers,cookies,url) for url in urls]
-        for future in as_completed(future_to_url):
-            print(future.result())
     '''
-
+    if os.path.exists('resouse.csv'):
+        print('读取本地的resouse.csv文件(未开发).....')
+        
+    else:
+        print('开始去网站爬取acckey 和accnum,保存到本地的data.csv')
+        get_resouse(urls,headers)
 
 
 
