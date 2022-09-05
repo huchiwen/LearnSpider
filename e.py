@@ -120,7 +120,6 @@ def get_resouse(urls,headers):
             save_to_csv('data','a+',data)
             #print(resouse)
 
-
 def main():
 
     cookies = {
