@@ -51,7 +51,7 @@ def save_to_csv(fileName, mode, contents):
         writer = csv.writer(f)
         for i in contents:
             writer.writerow(i)
-            print('数据保存成功~~')
+            #print('数据保存成功~~')
 
 ''' 列表单个字段保存'''
 def save_single_string_csv(fileName, mode, contents):
@@ -67,6 +67,7 @@ def get_acckey_accnum(headers,url):
         all_list = []
         r = requests.Session()
         response = r.get(url, headers=headers)
+        print(url)
 
         soup = BeautifulSoup(response.text, 'lxml')
         access_keys = soup.find_all("a", class_="act_content_display")
@@ -146,9 +147,14 @@ def main():
     }
     urls =get_api_params()
     '''
-    不知道为什么用多线程下载获取不到数据提示 overwrite，只能用单线程的办法去获取,但是，数据量太大。耗时间
+      不知道为什么用多线程下载获取不到数据提示 overwrite,原因是共用一个ssession 用requests.Session()可以解决
+      现在单线程获取acckey 和accnum 成功,多线程遇到网站反爬,导致,获取到一部分数据就获取不了,解决办法是用钱买代理ip(这个技术还没有用)
+      多线程代码已经完成了,只是遇到网站反爬,导致数据获取不完全.
+    '''
     for url in urls:
-        get_page_data(headers,cookies,url)
+        data = get_acckey_accnum(headers,url)
+        save_to_csv('data','a+',data)
+
     '''
     if os.path.exists('resouse.csv'):
         print('读取本地的resouse.csv文件(未开发).....')
@@ -156,7 +162,7 @@ def main():
     else:
         print('开始去网站爬取acckey 和accnum,保存到本地的data.csv')
         get_resouse(urls,headers)
-
+    '''
 
 
 if __name__ == '__main__':
